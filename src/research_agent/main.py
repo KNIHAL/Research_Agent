@@ -1,31 +1,40 @@
-#!/usr/bin/env python
 import sys
 import warnings
-
 from datetime import datetime
-
 from research_agent.crew import ResearchAgent
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
-# This main file is intended to be a way for you to run your
-# crew locally, so refrain from adding unnecessary logic into this file.
-# Replace with inputs you want to test with, it will automatically
-# interpolate any tasks and agents information
-
 def run():
     """
-    Run the crew.
+    Run the crew in a continuous loop for multiple queries.
     """
-    inputs = {
-        'topic': 'AI LLMs',
-        'current_year': str(datetime.now().year)
-    }
+    print("Research Agent is ready! Type 'exit' to quit the program.")
     
-    try:
-        ResearchAgent().crew().kickoff(inputs=inputs)
-    except Exception as e:
-        raise Exception(f"An error occurred while running the crew: {e}")
+    while True:
+        # Get user input
+        topic = input("\nWhat would you like to research? ").strip()
+        
+        # Check for exit condition
+        if topic.lower() in ['exit', 'quit', 'q']:
+            print("Goodbye!")
+            break
+            
+        if not topic:
+            print("Please enter a valid research topic.")
+            continue
+            
+        inputs = {
+            'topic': topic,
+            'current_year': str(datetime.now().year)
+        }
+
+        try:
+            print(f"\nResearching: {topic}...\n")
+            ResearchAgent().crew().kickoff(inputs=inputs)
+        except Exception as e:
+            print(f"An error occurred while running the crew: {e}")
+            print("Please try again with a different query.")
 
 
 def train():
