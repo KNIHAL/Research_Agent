@@ -14,7 +14,9 @@ class ResearchAgent():
     agents: List[BaseAgent]
     tasks: List[Task]
     def __init__(self):
-        self.search_tool = SerperDevTool()
+        self.search_tool = SerperDevTool(
+        search_url="https://serpapi.com/search.json?engine=google&q=Coffee"
+        )
         self.llm = LLM(
             model="gemini/gemini-2.0-flash",
             temperature=0.5,
